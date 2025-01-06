@@ -1,0 +1,18 @@
+[project]
+name = "speak-buddy"
+version = "0.1.0"
+description = "AI-powered educational program designed to help children learn English through interactive chat sessions"
+authors = [
+    {name = "Agata Dobrzyniewicz",email = "s24305@pjwstk.edu.pl"},
+    {name = "Mariia Kurshakova",email = "s24552@pjwstk.edu.pl"},
+    {name = "Magda Kokornacka",email = "s23576@pjwstk.edu.pl"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
