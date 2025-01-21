@@ -9,8 +9,12 @@ authors = [
 ]
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = [
-]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+flask = "^2.2.5"
+transformers = "^4.31.0"
+torch = { version = ">=1.11.0" }
 
 
 [build-system]
