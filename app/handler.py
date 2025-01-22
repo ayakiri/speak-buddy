@@ -1,11 +1,18 @@
-from flask import jsonify, request
+from flask import jsonify, request, render_template
 from transformers import pipeline
+import torch
 
-answer_pipeline = pipeline('text-generation', model='gpt2')
-correct_pipeline = pipeline('text2text-generation', model='ayakiri/sentence-correction')
+device = 0 if torch.cuda.is_available() else -1
+print("Using ", "GPU" if device >= 0 else "CPU")
+answer_pipeline = pipeline('text-generation', model='gpt2', device=device, max_length=5120)
+correct_pipeline = pipeline('text2text-generation', model='ayakiri/sentence-correction', device=device, max_length=5120)
 
 
 def configure_routes(app):
+    @app.route('/')
+    def home():
+        return render_template('index.html')
+
     @app.route('/answer', methods=['POST'])
     def answer():
 
@@ -24,7 +31,6 @@ def configure_routes(app):
 
     @app.route('/correct', methods=['POST'])
     def correct():
-
         data = request.get_json()
         if not data or 'message' not in data:
             return jsonify({'error': 'No message provided in JSON'}), 400
