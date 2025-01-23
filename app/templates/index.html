@@ -7,22 +7,28 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h1>SpeakBuddy</h1>
-    <h3>Twój przyjaciel w nauce języka angielskiego</h3>
-
-
-
-    <form id="messageForm">
-        <label for="message">Rozmawiaj ze swoim kolegą po angielsku! Wpisz tutaj swoją wiadomość:</label>
-        <input type="text" id="message" name="message" required>
-        <button type="button" id="sendButton">Send</button>
-    </form>
-
-    <h2>Nasza rozmowa:</h2>
-    <div id="conversation">
-        <!-- Messages and responses here -->
+    <div id="banner">
+         SpeakBuddy - Twój przyjaciel w nauce języka angielskiego! 
+    </div>
+    <div id="main-container">
+        <div id="corrections-container">
+            <h2> Poprawki </h2>
+            <div id="corrections">
+                <!-- Corrected messages will appear here -->
+            </div>
+        </div>
+        <div id="chat-container">
+            <div id="conversation">
+                <!-- Messages and responses here -->
+            </div>
+            <div id="input-container">
+                <input type="text" id="message" name="message" placeholder="Type your message..." required>
+                <button type="button" id="sendButton">Send</button>
+            </div>
+        </div>
     </div>
 
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
     <script>
         document.getElementById('sendButton').addEventListener('click', async () => {
             const message = document.getElementById('message').value;
@@ -32,7 +38,8 @@
                 return;
             }
 
-            appendMessage('You: ' + message);
+            appendMessage(message, 'user');
+            document.getElementById('message').value = '';
 
             try {
                 const answerResponse = await fetch('/answer', {
@@ -51,9 +58,9 @@
                 console.log('Answer data:', answerData);
 
                 if (answerData && answerData.response) {
-                    appendMessage('Server (Answer): ' + answerData.response);
+                    appendMessage(answerData.response, 'bot');
                 } else {
-                    appendMessage('Server (Answer): No answer available');
+                    appendMessage('No answer available', 'bot');
                 }
 
                 const correctResponse = await fetch('/correct', {
@@ -73,23 +80,45 @@
                 console.log('Corrected data:', correctData);
 
                 if (correctData && correctData.corrected) {
-                    appendMessage('Server (Corrected): ' + correctData.corrected);
+                    if (message === correctData.corrected) {
+                        appendCorrection(`"${message}" is right! \n🌸Good Job!🌸`);
+                    } else {
+                        appendCorrection(`"${message}" should be: \n${correctData.corrected}`);
+                    }
                 } else {
-                    appendMessage('Server (Corrected): No corrected text available');
+                    appendCorrection('No corrected text available');
                 }
             } catch (error) {
                 console.error('Error:', error);
-                appendMessage('Error: Unable to process your request.');
+                appendMessage('Error: Unable to process your request.', 'bot');
             }
 
             document.getElementById('message').value = '';
         });
 
-        function appendMessage(message) {
+        function appendMessage(message, sender) {
             const conversation = document.getElementById('conversation');
+            const messageContainer = document.createElement('div');
+            const label = document.createElement('p');
             const messageElement = document.createElement('p');
+
+            label.textContent = sender === 'user' ? 'You' : 'Bot';
+            label.className = sender + '-label';
             messageElement.textContent = message;
-            conversation.appendChild(messageElement);
+            messageElement.className = sender;
+
+            messageContainer.appendChild(label);
+            messageContainer.appendChild(messageElement);
+            conversation.appendChild(messageContainer);
+            conversation.scrollTop = conversation.scrollHeight; // Scroll to the bottom
+        }
+
+        function appendCorrection(message) {
+            const corrections = document.getElementById('corrections');
+            const correctionElement = document.createElement('p');
+            correctionElement.textContent = message;
+            correctionElement.className = 'corrected';
+            corrections.appendChild(correctionElement);
         }
     </script>
 </body>
