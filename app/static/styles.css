@@ -1,7 +1,7 @@
 /* General Body Styles */
 body {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    background-color: #f0f8ff;  /* Soft light blue */
+    font-family: 'Sans serif', sans-serif;
+    background-color: #c2b3ac;  /* Soft light blue */
     color: #333;
     margin: 0;
     padding: 0;
@@ -11,6 +11,57 @@ body {
     justify-content: center;
     height: 100vh;
     text-align: center;
+}
+
+#banner {
+    width: 100%;
+    height: 70px;
+    background-color: #4b2a1a;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: bold;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    padding-left: 20px;
+}
+
+#main-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 90%;
+    max-width: 1400px;
+    height: 100%; /* Adjust height to take all available space minus the banner height */
+    margin-top: 100px; /* Add margin to avoid overlap with the banner */
+    padding: 20px;
+}
+
+#corrections-container {
+    width: 30%;
+    max-height: 600px;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-right: 20px;
+}
+
+#chat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Allow the chat container to take all available space */
+    width: 85%;
+    height: 85%; /* Set a fixed height */
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    overflow: hidden;
 }
 
 /* Title */
@@ -29,6 +80,7 @@ form {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 100%;
+    margin-top: 80px; /* Add margin to avoid overlap with the banner */
     margin-bottom: 30px;
     display: flex;
     flex-direction: column;
@@ -73,29 +125,85 @@ button:hover {
 /* Conversation Styles */
 h2 {
     font-size: 2em;
-    color: #2196F3;
+    color: #4b2a1a;
     margin-top: 30px;
 }
 
 #conversation {
-    max-width: 600px;
-    width: 100%;
-    margin-top: 20px;
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 15px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    max-height: 300px;
+    flex-grow: 1;
     overflow-y: auto;
+    margin-bottom: 10px;
 }
 
-#conversation p {
-    font-size: 1.1em;
-    padding: 8px;
-    margin: 8px 0;
+#input-container {
+    display: flex;
+    align-items: center;
+}
+
+#message {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    margin-right: 10px;
+    box-sizing: border-box;
+}
+
+#sendButton {
+    padding: 10px 20px;
+    background-color: #5b321e;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    box-sizing: border-box;
+    height: 100%; /* Ensure the button height matches the input box */
+}
+
+#sendButton:hover {
+    background-color: #45a049;
+}
+
+.user {
+    text-align: left;
+    color: #4b2a1a;
+    margin: 5px 0;
+    background-color: #e8cfbf;
+    padding: 10px;
     border-radius: 10px;
-    background-color: #e3f2fd;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+    align-self: flex-start;
+}
+
+.user-label {
+    text-align: left;
+    font-weight: bold;
+    margin: 0;
+}
+
+.bot {
+    text-align: right;
+    color: rgb(52, 103, 51);
+    margin: 5px 0;
+    background-color: #e8f5e9;
+    padding: 10px;
+    border-radius: 10px;
+    align-self: flex-end;
+}
+
+.bot-label {
+    text-align: right;
+    font-weight: bold;
+    margin: 0;
+}
+
+.corrected {
+    text-align: left;
+    color: rgb(149, 149, 149);
+    margin: 5px 0;
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 10px;
+    align-self: flex-start;
 }
 
 /* Additional Responsiveness */
