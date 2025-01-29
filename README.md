@@ -113,7 +113,7 @@ T5’s architecture is well-suited for tasks involving sequence-to-sequence mode
 - **Accuracy**: Measures exact matches (strict) - not used for this type of task
 
 #### Results - sentence-correction
-- **BLEU- JFLEG Dataset**: 82.7130
+- **BLEU- JFLEG Dataset**: 82.71300514110774
 - **BLEU- Wi_Locness Dataset**: 8.581458245199172e-10
 
 #### Results - sentence-correction-t5-base
@@ -124,6 +124,10 @@ T5’s architecture is well-suited for tasks involving sequence-to-sequence mode
 - **BLEU- JFLEG Dataset**: 67.34243080033121
 - **BLEU- Wi_Locness Dataset**: 8.181211326292449e-10
 
+Benchmarks: [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1LCMj6cnyGvBX4i3st2u8T1OyGfoRZWA9?usp=sharing)
+
+#### Decision
+We decided to use sentence-correction as it had better Wi_Locness results than t5-base and better BLEU than t5-base-enhanced. Furthermore it was selected by humans to work the best. 
 
 
 ## 🧠 Chatting model
