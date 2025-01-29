@@ -4,8 +4,8 @@ import torch
 
 device = 0 if torch.cuda.is_available() else -1
 print("Using ", "GPU" if device >= 0 else "CPU")
-answer_pipeline = pipeline('text-generation', model='gpt2', device=device, max_length=5120)
-correct_pipeline = pipeline('text2text-generation', model='ayakiri/sentence-correction', device=device, max_length=5120)
+answer_pipeline = pipeline('text-generation', model='TinyLlama/TinyLlama-1.1B-Chat-v1.0', device=device, max_length=1024, max_new_tokens=1024)
+correct_pipeline = pipeline('text2text-generation', model='ayakiri/sentence-correction', device=device, max_length=1024, max_new_tokens=1024)
 
 
 def configure_routes(app):
@@ -22,11 +22,25 @@ def configure_routes(app):
 
         message = data['message']
 
-        response = answer_pipeline(message, max_length=50, num_return_sequences=1)
+        # Create a prompt that leads to a playful, child-like response from the second child
+        prompt = f'''<|system|>
+                    You are a friendly chatbot who loves talking with children about their day.</s>
+                    <|user|>
+                    {message}</s>
+                    <|assistant|>'''
+
+        # Generate the response using TinyLlama or another model
+        response = answer_pipeline(prompt, max_length=50, num_return_sequences=1)
+
+        # Clean up the response to remove any prompt-related text
+        generated_text = response[0]['generated_text']
+
+        # Remove everything before the assistant's response (usually the prompt will include <|assistant|> token)
+        child_response = generated_text.split("<|assistant|>")[-1].strip()
 
         return jsonify({
             'input': message,
-            'response': response[0]['generated_text']
+            'response': child_response
         })
 
     @app.route('/correct', methods=['POST'])
