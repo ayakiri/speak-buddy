@@ -2,19 +2,56 @@ from flask import jsonify, request, render_template
 from transformers import pipeline
 import torch
 
+# Determine the available device (GPU if available, otherwise CPU)
 device = 0 if torch.cuda.is_available() else -1
 print("Using ", "GPU" if device >= 0 else "CPU")
-answer_pipeline = pipeline('text-generation', model='TinyLlama/TinyLlama-1.1B-Chat-v1.0', device=device, max_length=1024, max_new_tokens=1024)
-correct_pipeline = pipeline('text2text-generation', model='ayakiri/sentence-correction', device=device, max_length=1024, max_new_tokens=1024)
+
+# Initialize the text-generation pipeline for answering questions
+answer_pipeline = pipeline(
+    'text-generation',
+    model='TinyLlama/TinyLlama-1.1B-Chat-v1.0',
+    device=device,
+    max_length=1024,
+    max_new_tokens=1024
+)
+# Initialize the text-to-text generation pipeline for text correction
+correct_pipeline = pipeline(
+    'text2text-generation',
+    model='ayakiri/sentence-correction',
+    device=device,
+    max_length=1024,
+    max_new_tokens=1024
+)
 
 
 def configure_routes(app):
+    """
+    Configures the routes for the Flask application.
+
+    Args:
+        app (Flask): The Flask application instance.
+    """
     @app.route('/')
     def home():
+        """
+        Renders the home page.
+
+        Returns:
+            Response: The rendered HTML template.
+        """
         return render_template('index.html')
 
     @app.route('/answer', methods=['POST'])
     def answer():
+        """
+        Generates a child-friendly response to the given input message.
+
+        Expects JSON input with a 'message' field.
+
+        Returns:
+            JSON: A JSON response containing the original message and the AI-generated response.
+            HTTP Status 400: If the 'message' field is missing in the request.
+        """
 
         data = request.get_json()
         if not data or 'message' not in data:
@@ -45,12 +82,22 @@ def configure_routes(app):
 
     @app.route('/correct', methods=['POST'])
     def correct():
+        """
+        Corrects grammatical errors in the given input text.
+
+        Expects JSON input with a 'message' field.
+
+        Returns:
+            JSON: A JSON response containing the original message and the corrected text.
+            HTTP Status 400: If the 'message' field is missing in the request.
+        """
         data = request.get_json()
         if not data or 'message' not in data:
             return jsonify({'error': 'No message provided in JSON'}), 400
 
         message = data['message']
 
+        # Generate the corrected version of the message
         corrected = correct_pipeline(message, max_length=100, num_return_sequences=1)
 
         return jsonify({
