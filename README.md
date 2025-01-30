@@ -153,5 +153,15 @@ cd speak-buddy
 poetry install
 ```
 
+## 🏃 Running the Application
+
+To start the SpeakBuddy application, run the following command:
+
+```bash
+python run.py
+```
+By default, the application runs on `http://0.0.0.0:5000/`
+
+
 
 
