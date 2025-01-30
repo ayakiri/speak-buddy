@@ -1,7 +1,7 @@
 /* General Body Styles */
 body {
     font-family: 'Sans serif', sans-serif;
-    background-color: #c2b3ac;  /* Soft light blue */
+    background-color: #fef4ff; 
     color: #333;
     margin: 0;
     padding: 0;
@@ -16,7 +16,7 @@ body {
 #banner {
     width: 100%;
     height: 70px;
-    background-color: #4b2a1a;
+    background-color: #6dc984;
     color: white;
     display: flex;
     justify-content: center;
@@ -108,7 +108,7 @@ input[type="text"] {
 
 /* Button Styles */
 button {
-    background-color: #ff9800;
+    background-color: #ffafee;
     color: white;
     font-size: 1.1em;
     padding: 10px 20px;
@@ -119,13 +119,13 @@ button {
 }
 
 button:hover {
-    background-color: #ff5722;
+    background-color: #ffafee;
 }
 
 /* Conversation Styles */
 h2 {
     font-size: 2em;
-    color: #4b2a1a;
+    color: #c591ae;
     margin-top: 30px;
 }
 
@@ -151,7 +151,7 @@ h2 {
 
 #sendButton {
     padding: 10px 20px;
-    background-color: #5b321e;
+    background-color: #ffafee;
     color: white;
     border: none;
     border-radius: 20px;
@@ -166,9 +166,9 @@ h2 {
 
 .user {
     text-align: left;
-    color: #4b2a1a;
+    color: #4b1a43;
     margin: 5px 0;
-    background-color: #e8cfbf;
+    background-color: #ffe3fe;
     padding: 10px;
     border-radius: 10px;
     align-self: flex-start;
